@@ -38,5 +38,8 @@ pub fn run(pkcs12_cert: &str, pkcs12_password: &str, address: &str, port: &str, 
 
 fn handle_client(task: Task, stream: connection::SecureStream) {
     let connection = connection::Connection::new(stream);
-    task(connection);
+    let result = task(connection);
+    if result.is_err() {
+        println!("Error: {}", result.err().unwrap());
+    }
 }
